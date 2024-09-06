@@ -59,7 +59,7 @@ public class CalculatorGUI implements ActionListener {
 
     public CalculatorGUI() {
         // JFrame 초기화 및 기본 설정
-        frame = new JFrame("Calculator");
+        frame = new JFrame("계산기");
         textField = new JTextField();
         panel = new JPanel();
 
