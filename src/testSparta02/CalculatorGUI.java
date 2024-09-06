@@ -30,12 +30,12 @@ public class CalculatorGUI implements ActionListener {
                - JButton: 각 계산 기능에 대한 버튼.
            - 기능 분해:
                - 숫자 및 연산자 버튼 처리 (actionPerformed 메서드에서 처리).
-               - 사칙연산 수행: `CalculatorController` 클래스를 통해 수행.
+               - 사칙연산 수행: `CalculatorControllerApp` 클래스를 통해 수행.
                - 결과 출력 및 예외 처리.
-               - 연산 결과 저장 및 삭제 기능 추가: `CalculatorController` 클래스를 통해 관리.
+               - 연산 결과 저장 및 삭제 기능 추가: `CalculatorControllerApp` 클래스를 통해 관리.
            - 데이터 흐름:
                - 입력: 사용자로부터 숫자 및 연산자를 입력받음.
-               - 처리: 입력된 데이터를 바탕으로 연산을 수행하고 결과를 `CalculatorController`에 저장.
+               - 처리: 입력된 데이터를 바탕으로 연산을 수행하고 결과를 `CalculatorControllerApp`에 저장.
                - 출력: 연산 결과를 텍스트 필드에 출력하며, 예외 발생 시 오류 메시지를 표시함.
     */
 
@@ -55,7 +55,7 @@ public class CalculatorGUI implements ActionListener {
     private String operator = "";
     private double num1 = 0, num2 = 0;
     private boolean isOperatorClicked = false;
-    private testSparta02.CalculatorControllerApp calculator = new testSparta02.CalculatorControllerApp();  // CalculatorController 인스턴스 생성
+    private testSparta02.CalculatorControllerApp calculator = new testSparta02.CalculatorControllerApp();  // CalculatorControllerApp 인스턴스 생성
 
     public CalculatorGUI() {
         // JFrame 초기화 및 기본 설정
