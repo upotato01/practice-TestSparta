@@ -23,7 +23,7 @@ public class CalculatorGUI implements ActionListener {
                - 연산 중 잘못된 입력 처리.
 
         2. 설계:
-           - 주요 클래스: Calculator01
+           - 주요 클래스: CalculatorGUI
                - JFrame: 메인 창 구성.
                - JTextField: 입력 및 결과 출력.
                - JPanel: 버튼 배치 및 레이아웃 관리.
