@@ -39,112 +39,134 @@ public class CalculatorGUI implements ActionListener {
                - 출력: 연산 결과를 텍스트 필드에 출력하며, 예외 발생 시 오류 메시지를 표시함.
     */
 
-
-
     private JFrame frame;
     private JTextField textField;
     private JPanel panel;
     private String[] buttons = {
-            "7", "8", "9", "/",  // 첫 번째 행: 숫자 7, 8, 9와 나눗셈 버튼
-            "4", "5", "6", "*",  // 두 번째 행: 숫자 4, 5, 6과 곱셈 버튼
-            "1", "2", "3", "-",  // 세 번째 행: 숫자 1, 2, 3과 뺄셈 버튼
-            "0", ".", "=", "+",  // 네 번째 행: 숫자 0, 소수점, 등호, 덧셈 버튼
-            " ", " ", "←", "C"   // 다섯 번째 행: 빈 공간, 마지막 입력 삭제, 초기화 버튼
+            "7", "8", "9", "/",
+            "4", "5", "6", "*",
+            "1", "2", "3", "-",
+            "0", ".", "=", "+",
+            " ", " ", "←", "C"
     };
-    private JButton[] button = new JButton[buttons.length];  // 버튼 배열의 길이에 맞게 설정
+    private JButton[] button = new JButton[buttons.length];
     private String operator = "";
     private double num1 = 0, num2 = 0;
     private boolean isOperatorClicked = false;
-    private testSparta02.CalculatorControllerApp calculator = new testSparta02.CalculatorControllerApp();  // CalculatorControllerApp 인스턴스 생성
+    private CalculatorControllerApp calculator = new CalculatorControllerApp();
 
     public CalculatorGUI() {
-        // JFrame 초기화 및 기본 설정
-        frame = new JFrame("계산기");
-        textField = new JTextField();
-        panel = new JPanel();
+        setupFrame();
+        setupTextField();
+        setupPanel();
+        frame.setVisible(true);
+    }
 
-        // JTextField 설정: 결과와 입력을 표시하는 텍스트 필드
+    private void setupFrame() {
+        frame = new JFrame("계산기");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 400);
+    }
+
+    private void setupTextField() {
+        textField = new JTextField();
         textField.setPreferredSize(new Dimension(230, 50));
         textField.setEditable(false);
         textField.setFont(new Font("Arial", Font.PLAIN, 24));
         textField.setHorizontalAlignment(JTextField.RIGHT);
+        frame.add(textField, BorderLayout.NORTH);
+    }
 
-        // JPanel 설정: 5행 4열의 그리드 레이아웃을 사용
-        panel.setLayout(new GridLayout(5, 4, 10, 10)); // 5행 4열 그리드 레이아웃
+    private void setupPanel() {
+        panel = new JPanel(new GridLayout(5, 4, 10, 10));
 
-        // 버튼을 JPanel에 추가
         for (int i = 0; i < buttons.length; i++) {
-            if (!buttons[i].trim().isEmpty()) {  // 빈 문자열이 아닌 경우
+            if (!buttons[i].trim().isEmpty()) {
                 button[i] = new JButton(buttons[i]);
                 button[i].setFont(new Font("Arial", Font.BOLD, 20));
                 button[i].addActionListener(this);
                 panel.add(button[i]);
             } else {
-                panel.add(new JLabel());  // 빈 문자열의 경우 빈 레이블 추가
+                panel.add(new JLabel());
             }
         }
-
-        // JFrame에 텍스트 필드와 패널 추가
-        frame.add(textField, BorderLayout.NORTH);
         frame.add(panel, BorderLayout.CENTER);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 400);  // 프레임 크기 설정
-        frame.setVisible(true);   // 프레임을 화면에 표시
-    }
-
-    public static void main(String[] args) {
-        new CalculatorGUI();  // 계산기 생성 및 실행
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
 
-        // 숫자와 소수점 입력 처리
-        if (command.charAt(0) >= '0' && command.charAt(0) <= '9' || command.equals(".")) {
-            if (isOperatorClicked) {
-                textField.setText("");  // 연산자가 클릭되었을 경우 텍스트 필드를 초기화
-                isOperatorClicked = false;
-            }
-            textField.setText(textField.getText() + command);
+        if (isNumberOrDot(command)) {
+            handleNumberInput(command);
+        } else if (command.equals("C")) {
+            clearAll();
+        } else if (command.equals("←")) {
+            handleBackspace();
+        } else if (command.equals("=")) {
+            handleEqualOperation();
+        } else {
+            handleOperator(command);
         }
-        // 초기화 버튼 "C" 처리
-        else if (command.equals("C")) {
+    }
+
+    private boolean isNumberOrDot(String command) {
+        return command.charAt(0) >= '0' && command.charAt(0) <= '9' || command.equals(".");
+    }
+
+    private void handleNumberInput(String command) {
+        if (isOperatorClicked) {
             textField.setText("");
-            num1 = 0;
-            num2 = 0;
-            operator = "";
+            isOperatorClicked = false;
         }
-        // 마지막 입력 삭제 버튼 "←" 처리
-        else if (command.equals("←")) {
-            String currentText = textField.getText();
-            if (!currentText.isEmpty()) {
-                textField.setText(currentText.substring(0, currentText.length() - 1));
-            }
+        textField.setText(textField.getText() + command);
+    }
+
+    private void clearAll() {
+        textField.setText("");
+        num1 = 0;
+        num2 = 0;
+        operator = "";
+    }
+
+    private void handleBackspace() {
+        String currentText = textField.getText();
+        if (!currentText.isEmpty()) {
+            textField.setText(currentText.substring(0, currentText.length() - 1));
         }
-        // 등호 "=" 버튼 처리: 연산 수행
-        else if (command.equals("=")) {
-            if (!operator.isEmpty()) {
+    }
+
+    private void handleEqualOperation() {
+        if (!operator.isEmpty()) {
+            try {
                 num2 = Double.parseDouble(textField.getText());
                 double result = calculator.calculate(num1, num2, operator);
-
                 if (!Double.isNaN(result)) {
                     textField.setText(String.valueOf(result));
                 }
                 operator = "";
+            } catch (NumberFormatException ex) {
+                textField.setText("Error");
             }
         }
-        // 연산자 버튼 처리: +, -, *, /
-        else {
-            if (!operator.isEmpty() && !textField.getText().isEmpty()) {
+    }
+
+    private void handleOperator(String command) {
+        try {
+            if (!operator.isEmpty()) {
                 num2 = Double.parseDouble(textField.getText());
-                double intermediateResult = calculator.calculate(num1, num2, operator);
-                num1 = intermediateResult; // 계속해서 계산을 이어가기 위해 업데이트
+                num1 = calculator.calculate(num1, num2, operator);
             } else {
                 num1 = Double.parseDouble(textField.getText());
             }
             operator = command;
             isOperatorClicked = true;
+        } catch (NumberFormatException ex) {
+            textField.setText("Error");
         }
+    }
+
+    public static void main(String[] args) {
+        new CalculatorGUI();
     }
 }
