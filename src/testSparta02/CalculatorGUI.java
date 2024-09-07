@@ -137,34 +137,71 @@ public class CalculatorGUI implements ActionListener {
     }
 
     private void handleEqualOperation() {
-        if (!operator.isEmpty()) {
-            try {
-                num2 = Double.parseDouble(textField.getText());
-                double result = calculator.calculate(num1, num2, operator);
-                if (!Double.isNaN(result)) {
-                    textField.setText(String.valueOf(result));
-                }
+        if (operator.isEmpty() || textField.getText().isEmpty()) {
+            // 연산자가 없거나 숫자가 입력되지 않았을 때
+            textField.setText("Error");
+            return;
+        }
+
+        try {
+            // num2 값을 설정
+            num2 = Double.parseDouble(textField.getText());
+
+            if (Double.isNaN(num2)) {
+                textField.setText("Error");
+                return;
+            }
+
+            // 연산 수행
+            double result = calculator.calculate(num1, num2, operator);
+
+            if (!Double.isNaN(result)) {
+                textField.setText(String.valueOf(result));
+                // 결과를 출력한 후 상태 초기화
                 operator = "";
-            } catch (NumberFormatException ex) {
+                num2 = 0;
+                isOperatorClicked = false;
+            } else {
                 textField.setText("Error");
             }
+        } catch (NumberFormatException ex) {
+            textField.setText("Error");
         }
     }
 
     private void handleOperator(String command) {
         try {
-            if (!operator.isEmpty()) {
+            // 현재 입력된 값이 없는데 연산자가 눌렸을 때
+            if (textField.getText().isEmpty()) {
+                textField.setText("Error");
+                return;
+            }
+
+            if (!operator.isEmpty() && !isOperatorClicked) {
+                // 기존 연산자가 설정되어 있고 새 연산자가 눌릴 때
                 num2 = Double.parseDouble(textField.getText());
                 num1 = calculator.calculate(num1, num2, operator);
+                textField.setText(String.valueOf(num1)); // 결과를 텍스트 필드에 표시
+            } else if (isOperatorClicked) {
+                // 연산자가 연속으로 눌렸을 때
+                operator = command;
+                textField.setText(textField.getText() + " " + operator + " ");
+                return;
             } else {
+                // 새 연산자를 입력할 때
                 num1 = Double.parseDouble(textField.getText());
+                textField.setText(textField.getText() + " " + command + " ");
             }
+
             operator = command;
             isOperatorClicked = true;
         } catch (NumberFormatException ex) {
             textField.setText("Error");
         }
     }
+
+
+
 
     public static void main(String[] args) {
         new CalculatorGUI();

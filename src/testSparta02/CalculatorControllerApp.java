@@ -61,40 +61,4 @@ public class CalculatorControllerApp {
         }
         results.add(result);
     }
-
-    /**
-     * 큐에서 가장 오래된 결과를 삭제합니다.
-     */
-    public void removeResult() {
-        if (!results.isEmpty()) {
-            results.poll(); // 가장 오래된 결과 삭제
-        } else {
-            System.out.println("삭제할 결과가 없습니다.");
-        }
-    }
-
-    /**
-     * 결과 큐를 가져옵니다.
-     *
-     * @return 결과 큐.
-     */
-    public Queue<Double> getResults() {
-        return results;
-    }
-
-    /**
-     * 모든 결과를 큐에서 제거합니다.
-     */
-    public void clearResults() {
-        results.clear(); // 모든 결과 제거
-    }
-
-    /**
-     * 결과 큐가 비어있는지 확인합니다.
-     *
-     * @return 결과 큐가 비어있으면 true, 그렇지 않으면 false.
-     */
-    public boolean hasResults() {
-        return !results.isEmpty();
-    }
 }
