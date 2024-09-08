@@ -61,5 +61,7 @@
 - 버튼 클릭 이벤트를 처리하고 `CalculatorControllerApp`를 사용하여 계산을 수행합니다.
 
 ## 요구 사항
-- **Java JDK 8 이상**: 프로그램을 컴파일하고 실행하기 위해 JDK가 설치되어 있어야 합니다.
+- **Java JDK 17 이상**: 프로그램을 컴파일하고 실행하기 위해 JDK가 설치되어 있어야 합니다.
+![스크린샷 2024-09-08 190841](https://github.com/user-attachments/assets/a29d01fa-0e27-4ec1-8006-fad0a45ed2ec)
+![다운로드](https://github.com/user-attachments/assets/c347d559-4afe-4ec2-8b95-66e1184f6d15)
 
