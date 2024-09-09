@@ -7,7 +7,6 @@ public class CalculatorConsole {
     // 연산 결과를 저장하는 컬렉션 (최대 10개의 값만 저장)
     private LinkedList<Integer> results = new LinkedList<>();
 
-    // 사칙연산을 수행하는 메서드
     public int calculate(int num1, int num2, char operator) {
         int result = 0;
 
@@ -31,7 +30,6 @@ public class CalculatorConsole {
                 throw new IllegalArgumentException("잘못된 연산 기호입니다.");
         }
 
-        // 연산 결과 저장
         setResults(result);
         return result;
     }
@@ -69,7 +67,6 @@ public class CalculatorConsole {
         }
     }
 
-    // 메인 메서드
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         CalculatorConsole calculator = new CalculatorConsole();
@@ -80,11 +77,11 @@ public class CalculatorConsole {
             String command = sc.next();
 
             if (command.equalsIgnoreCase("start")) {
-                // 양의 정수 입력 받기
+
                 System.out.print("첫 번째 숫자를 입력하세요: ");
                 int num1 = sc.nextInt();
 
-                // 사칙연산 기호 입력 받기
+
                 System.out.print("사칙연산 기호를 입력하세요 ( +, -, *, / ): ");
                 char operator = sc.next().charAt(0);
 
@@ -94,7 +91,7 @@ public class CalculatorConsole {
 
 
                 try {
-                    // 계산 수행
+
                     int result = calculator.calculate(num1, num2, operator);
                     System.out.println("결과: " + result);
 
@@ -102,10 +99,8 @@ public class CalculatorConsole {
                     System.out.println(e.getMessage());
                 }
 
-                // 연산 결과 출력
                 System.out.println("현재까지 저장된 연산 결과들: " + calculator.getResults());
 
-                // 결과 삭제 여부
                 System.out.println("첫 번째 연산 결과를 삭제하시겠습니까? (yes/no)");
                 String removeResult = sc.next();
                 if (removeResult.equalsIgnoreCase("yes")) {
@@ -114,7 +109,6 @@ public class CalculatorConsole {
                 }
 
             } else if (command.equalsIgnoreCase("history")) {
-                // history 명령어 입력 시 기록 출력
                 calculator.printHistory();
 
             } else if (command.equalsIgnoreCase("exit")) {
