@@ -176,16 +176,19 @@ public class CalculatorGUI implements ActionListener {
     /**
      * 연산자 클릭 시 처리
      */
+    /**
+     * 연산자 클릭 시 처리 (연산자도 텍스트 필드에 표시)
+     */
     private void handleOperator(String command) {
         try {
             if (textField.getText().isEmpty()) {
-                textField.setText("Error");
+                textField.setText("NumberEmpty Error");
                 return;
             }
 
             if (!operator.isEmpty() && !isOperatorClicked) {
                 // 연산자 연속 입력 시 이전 연산 수행
-                num2 = Double.parseDouble(textField.getText());
+                num2 = Double.parseDouble(textField.getText().replaceAll("[^0-9.]", "")); // 숫자만 추출
                 num1 = calculator.calculate(num1, num2, operator);
                 textField.setText(String.valueOf(num1));
             } else if (isOperatorClicked) {
@@ -194,15 +197,16 @@ public class CalculatorGUI implements ActionListener {
                 return;
             } else {
                 num1 = Double.parseDouble(textField.getText());
-                textField.setText("");
             }
 
             operator = command;
+            textField.setText(textField.getText() + " " + operator + " "); // 연산자 표시
             isOperatorClicked = true;
         } catch (NumberFormatException ex) {
-            textField.setText("Error");
+            textField.setText("NumberFormatException");
         }
     }
+
 
     /**
      * "=" 버튼 클릭 시 연산 수행
@@ -227,7 +231,7 @@ public class CalculatorGUI implements ActionListener {
                 textField.setText("Error");
             }
         } catch (NumberFormatException ex) {
-            textField.setText("Error");
+            textField.setText("NumberFormatException");
         }
     }
 
