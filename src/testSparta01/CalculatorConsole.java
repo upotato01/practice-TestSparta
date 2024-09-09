@@ -1,3 +1,5 @@
+package testSparta01;
+
 import java.util.*;
 
 public class CalculatorConsole {
