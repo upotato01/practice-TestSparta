@@ -92,16 +92,48 @@ public class CalculatorConsole {
         }
     }
 
+    /**
+     * 히스토리 출력 후 첫 번째 결과 삭제 여부를 확인하는 메서드.
+     */
+    public void printHistoryWithDeleteCheck() {
+        LinkedList<Integer> resultsList = getResults(); // getResults()를 사용하여 연산 결과 리스트 가져옴
+
+        if (resultsList.isEmpty()) {
+            System.out.println("저장된 연산 결과가 없습니다.");
+        } else {
+            System.out.println("저장된 연산 기록:");
+            for (int result : resultsList) {
+                System.out.println(result);
+            }
+
+            // 첫 번째 결과 삭제 여부 확인
+            System.out.println("첫 번째 연산 결과를 삭제하시겠습니까? (yes/no)");
+            Scanner sc = new Scanner(System.in);
+            String userResponse = sc.next();
+
+            if (userResponse.equalsIgnoreCase("yes")) {
+                int initialSize = resultsList.size(); // 삭제 전 리스트 크기 저장
+                removeResult(); // 첫 번째 결과 삭제
+
+                if (resultsList.size() < initialSize) {
+                    System.out.println("삭제되었습니다.");
+                } else {
+                    System.out.println("아직 삭제되지 않았습니다.");
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         CalculatorConsole calculator = new CalculatorConsole();
         String continueCalc;
 
         do {
-            System.out.println("계산을 시작하려면 'start', 기록을 보려면 'history', 종료하려면 'exit'을 입력하세요:");
+            System.out.println("계산을 시작하려면 '1', 기록을 보려면 '2', 삭제 확인과 함께 기록을 보려면 '3', 종료하려면 'exit'을 입력하세요:");
             String command = sc.next();
 
-            if (command.equalsIgnoreCase("start")) {
+            if (command.equalsIgnoreCase("1")) {
 
                 System.out.print("첫 번째 숫자를 입력하세요: ");
                 int num1 = sc.nextInt();
@@ -124,26 +156,23 @@ public class CalculatorConsole {
                 // 현재까지 저장된 연산 결과 출력
                 System.out.println("현재까지 저장된 연산 결과들: " + calculator.getResults());
 
-                System.out.println("첫 번째 연산 결과를 삭제하시겠습니까? (yes/no)");
-                String removeResult = sc.next();
-                if (removeResult.equalsIgnoreCase("yes")) {
-                    calculator.removeResult();
-                    System.out.println("첫 번째 결과가 삭제되었습니다.");
-                }
-
-            } else if (command.equalsIgnoreCase("history")) {
+            } else if (command.equalsIgnoreCase("2")) {
                 // 기록된 연산 결과 출력
                 calculator.printHistory();
+
+            } else if (command.equalsIgnoreCase("3")) {
+                // 기록된 연산 결과와 삭제 여부 확인
+                calculator.printHistoryWithDeleteCheck();
 
             } else if (command.equalsIgnoreCase("exit")) {
                 // 프로그램 종료
                 break;
 
             } else {
-                System.out.println("잘못된 명령입니다. 'start', 'history', 또는 'exit'을 입력하세요.");
+                System.out.println("잘못된 명령입니다. 계산을 다시 시작하려면 '1', 기록을 보려면 '2', 삭제 확인과 함께 기록을 보려면 '3', 종료하려면 'exit'을 입력하세요:");
             }
 
-            System.out.println("계속하시겠습니까? yes를 입력해주세요 (exit 입력 시 종료)");
+            System.out.println("계속하시겠습니까? (yes를 입력해주세요 exit 입력 시 종료)");
             continueCalc = sc.next();
 
         } while (!continueCalc.equalsIgnoreCase("exit"));
