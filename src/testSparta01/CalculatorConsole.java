@@ -5,7 +5,7 @@ import java.util.function.BiFunction;
 
 public class CalculatorConsole {
 
-    /*
+    /**
         1단계: 요구사항 정의 및 설계
         --------------------------------------------
 
@@ -40,7 +40,7 @@ public class CalculatorConsole {
            - 반복 처리:
                - 사용자가 계산을 계속하고 싶다면 반복문을 통해 계속 입력을 받음.
                - 사용자가 `"exit"`을 입력하면 프로그램을 종료함.
-    */
+    **/
 
 
 

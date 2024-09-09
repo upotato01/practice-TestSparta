@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class CalculatorGUI implements ActionListener {
 
-    /*
+    /**
         1단계: 요구사항 정의 및 설계
         --------------------------------------------
 
@@ -47,7 +47,7 @@ public class CalculatorGUI implements ActionListener {
                - 출력: 연산 결과를 텍스트 필드에 출력하며, 예외 발생 시 오류 메시지를 표시함.
                - 결과 이력: 계산된 결과는 큐에 저장되며, 최대 10개의 결과만 관리하고 이전 결과는 자동 삭제됨.
 
-    */
+    **/
 
 
     // JFrame과 관련된 GUI 구성 요소 선언
