@@ -57,7 +57,7 @@ public class CalculatorGUI implements ActionListener {
             "4", "5", "6", "*",
             "1", "2", "3", "-",
             "0", ".", "=", "+",
-            " ", " ", "←", "C"
+            " ", "R", "←", "C"
     };
     private JButton[] button = new JButton[buttons.length];
     private String operator = "";
@@ -128,6 +128,8 @@ public class CalculatorGUI implements ActionListener {
             handleBackspace();
         } else if (command.equals("=")) {
             handleEqualOperation();
+        } else if (command.equals("R")) {
+            handleRecallResult();
         } else {
             handleOperator(command);
         }
@@ -149,6 +151,15 @@ public class CalculatorGUI implements ActionListener {
             isOperatorClicked = false;
         }
         textField.setText(textField.getText() + command);
+    }
+
+    private void handleRecallResult() {
+        double lastResult = calculator.getLastResult();
+        if (!Double.isNaN(lastResult)) {
+            textField.setText(String.valueOf(lastResult));
+        } else {
+            textField.setText("No result");
+        }
     }
 
     /**

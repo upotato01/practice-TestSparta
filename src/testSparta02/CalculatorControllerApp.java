@@ -61,4 +61,8 @@ public class CalculatorControllerApp {
         }
         results.add(result);
     }
+
+    public double getLastResult() {
+        return results.isEmpty() ? Double.NaN : results.peek();
+    }
 }
