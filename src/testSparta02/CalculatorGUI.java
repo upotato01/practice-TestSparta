@@ -153,6 +153,10 @@ public class CalculatorGUI implements ActionListener {
         textField.setText(textField.getText() + command);
     }
 
+    /**
+     *  이전 결과 표출 버튼
+     */
+
     private void handleRecallResult() {
         double lastResult = calculator.getLastResult();
         if (!Double.isNaN(lastResult)) {
