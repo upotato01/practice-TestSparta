@@ -4,7 +4,7 @@ import java.util.*;
 
 public class CalculatorConsole {
     private final ArrayList<Double> result = new ArrayList<>();
-    private String operation;
+    private char operation;
     private int num1;
     private int num2;
     private int error;
@@ -15,7 +15,7 @@ public class CalculatorConsole {
     }
 
     // 연산 셋팅
-    public void setCalc(String operation, int num1, int num2) {
+    public void setCalc(char operation, int num1, int num2) {
         this.operation = operation;
         this.num1 = num1;
         this.num2 = num2;
@@ -48,18 +48,17 @@ public class CalculatorConsole {
 
     // 연산 수행
     private void calculate() {
-        error = 0;
         switch (operation) {
-            case "+":
+            case '+':
                 result.add((double) num1 + num2);
                 break;
-            case "-":
+            case '-':
                 result.add((double) num1 - num2);
                 break;
-            case "*":
+            case '*':
                 result.add((double) num1 * num2);
                 break;
-            case "/":
+            case '/':
                 if (num2 == 0) {
                     System.out.println("0으로 나눌 수 없습니다.");
                     error = 1;
@@ -70,6 +69,7 @@ public class CalculatorConsole {
             default:
                 System.out.println("잘못된 연산 기호입니다.");
                 error = 1;
+                break;
         }
     }
 
@@ -79,21 +79,35 @@ public class CalculatorConsole {
         boolean checking = true;
 
         while (checking) {
-            System.out.print("연산기호를 입력해주세요 (+, -, *, /): ");
-            String operation = sc.nextLine();
-
+            // 첫 번째 숫자 입력
             int num1 = getInputValue(sc, "첫 번째 값을 입력해주세요: ");
             if (num1 < 0) continue;
 
-            int num2 = getInputValue(sc, "두 번째 값을 입력해주세요: ");
-            if (num2 <= 0) continue;
+            // 연산자 입력
+            System.out.print("연산기호를 입력해주세요 (+, -, *, /): ");
+            String operationStr = sc.nextLine().trim();  // 공백 제거
 
+            // 연산기호가 하나의 문자이고, 유효한 연산 기호인지 확인
+            if (operationStr.length() != 1 || !"+-*/".contains(operationStr)) {
+                System.out.println("잘못된 연산 기호입니다. 다시 입력해주세요.");
+                continue;  // 루프 다시 시작
+            }
+
+            // 연산 기호를 char로 변환
+            char operation = operationStr.charAt(0);
+
+            // 두 번째 숫자 입력
+            int num2 = getInputValue(sc, "두 번째 값을 입력해주세요: ");
+            if (num2 < 0) continue;  // 0으로 나눌 때는 calculate()에서 처리
+
+            // 계산 수행
             calc.setCalc(operation, num1, num2);
 
             System.out.println("결과: " + calc.getResult());
 
+            // 계속 진행, 종료 또는 삭제 여부 선택
             System.out.print("계속 진행(1) / 종료(2) / 삭제(3) 번호 입력: ");
-            String choice = sc.nextLine();
+            String choice = sc.nextLine().trim();
 
             switch (choice) {
                 case "1":
@@ -105,15 +119,15 @@ public class CalculatorConsole {
                     System.out.println("현재 저장된 값: " + calc.record());
 
                     System.out.print("삭제할 값을 입력하세요: ");
-                    double delnum = Double.parseDouble(sc.nextLine());
+                    double delnum = Double.parseDouble(sc.nextLine().trim());
 
                     System.out.print("중복값 포함(1) / 미포함(2) 번호 입력: ");
-                    int setOption = Integer.parseInt(sc.nextLine());
+                    int setOption = Integer.parseInt(sc.nextLine().trim());
 
                     calc.delete(setOption, delnum);
                     break;
                 default:
-                    System.out.println("잘못 입력하셨습니다. 처음으로 돌아갑니다.");
+                    System.out.println("잘못된 입력입니다. 처음으로 돌아갑니다.");
             }
         }
 
@@ -124,7 +138,7 @@ public class CalculatorConsole {
     private static int getInputValue(Scanner sc, String prompt) {
         System.out.print(prompt);
         try {
-            int value = Integer.parseInt(sc.nextLine());
+            int value = Integer.parseInt(sc.nextLine().trim());
             if (value < 0) {
                 System.out.println("0 미만의 수는 입력할 수 없습니다.");
                 return -1;
