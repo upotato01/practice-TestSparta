@@ -21,7 +21,7 @@ public class CalculatorConsole {
     }
 
     public void delete(int set, double num) {
-        boolean success;
+        boolean success = false;
         if (!result.contains(num)) {
             System.out.println("해당 값은 존재하지 않습니다.");
             return;
@@ -29,12 +29,17 @@ public class CalculatorConsole {
 
         if (set == 1) {
             success = result.removeAll(Collections.singleton(num));
-        } else {
+        } else if (set == 2) {
             success = result.remove(Double.valueOf(num));
+        } else {
+            System.out.println("값을 잘못 입력했습니다.");
+            return;
         }
 
         if (success) {
             System.out.println("정상적으로 삭제되었습니다. 현재 저장된 값: " + record());
+        } else {
+            System.out.println("삭제에 실패했습니다.");
         }
     }
 
@@ -88,7 +93,7 @@ public class CalculatorConsole {
             char operation = operationStr.charAt(0);
 
             int num2 = getInputValue(sc, "두 번째 값을 입력해주세요: ");
-            if (num2 < 0) continue;  // 0으로 나눌 때는 calculate()에서 처리
+            if (num2 < 0) continue;
 
             calc.setCalc(operation, num1, num2);
 
