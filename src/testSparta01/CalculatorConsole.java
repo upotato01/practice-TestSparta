@@ -123,7 +123,6 @@ public class CalculatorConsole {
                     System.out.println("잘못된 입력입니다. 처음으로 돌아갑니다.");
             }
         }
-
         sc.close();
     }
 
