@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 public class BaseballGame extends JFrame {
     private JTextArea resultArea;
     private JButton[] numberButtons;
-    private JButton submitButton, restartButton, deleteButton;
+    private JButton submitButton, restartButton, deleteButton, exitButton;
     private BaseballGameLogic gameLogic;
     private StringBuilder userInput;
 
@@ -43,8 +43,14 @@ public class BaseballGame extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (userInput.length() < 3) {
-                        userInput.append(finalI);
-                        updateUserInputDisplay();
+                        if (userInput.indexOf(String.valueOf(finalI)) == -1) { // 중복 입력 방지
+                            userInput.append(finalI);
+                            updateUserInputDisplay();
+                        } else {
+                            resultArea.append("중복된 숫자는 입력할 수 없습니다.\n");
+                        }
+                    } else {
+                        resultArea.append("3개의 숫자만 입력 가능합니다.\n");
                     }
                 }
             });
@@ -53,14 +59,17 @@ public class BaseballGame extends JFrame {
         submitButton = new JButton("제출");
         restartButton = new JButton("다시 시작");
         deleteButton = new JButton("삭제");
+        exitButton = new JButton("종료");
 
         submitButton.setFont(new Font("Arial", Font.BOLD, 16));
         restartButton.setFont(new Font("Arial", Font.BOLD, 16));
         deleteButton.setFont(new Font("Arial", Font.BOLD, 16));
+        exitButton.setFont(new Font("Arial", Font.BOLD, 16));
 
         buttonPanel.add(submitButton);
         buttonPanel.add(deleteButton);
         buttonPanel.add(restartButton);
+        buttonPanel.add(exitButton);
 
         add(buttonPanel, BorderLayout.CENTER);
 
@@ -68,17 +77,21 @@ public class BaseballGame extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (userInput.length() == 3) {
-                    int[] userNumbers = new int[3];
-                    for (int i = 0; i < 3; i++) {
-                        userNumbers[i] = Character.getNumericValue(userInput.charAt(i));
+                try {
+                    if (userInput.length() == 3) {
+                        int[] userNumbers = new int[3];
+                        for (int i = 0; i < 3; i++) {
+                            userNumbers[i] = Character.getNumericValue(userInput.charAt(i));
+                        }
+                        String result = gameLogic.checkResult(userNumbers);
+                        resultArea.append(result + "\n");
+                        userInput.setLength(0); // 입력 초기화
+                        updateUserInputDisplay();
+                    } else {
+                        resultArea.append("숫자 3개를 입력하세요.\n");
                     }
-                    String result = gameLogic.checkResult(userNumbers);
-                    resultArea.append(result + "\n");
-                    userInput.setLength(0); // 입력 초기화
-                    updateUserInputDisplay();
-                } else {
-                    resultArea.append("숫자 3개를 입력하세요.\n");
+                } catch (Exception ex) {
+                    resultArea.append("오류가 발생했습니다. 다시 시도해주세요.\n");
                 }
             }
         });
@@ -102,6 +115,20 @@ public class BaseballGame extends JFrame {
                 resultArea.setText("게임이 다시 시작되었습니다.\n");
                 userInput.setLength(0);
                 updateUserInputDisplay();
+            }
+        });
+
+        // 종료 버튼 이벤트
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirmed = JOptionPane.showConfirmDialog(null,
+                        "정말로 게임을 종료하시겠습니까?", "종료 확인",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (confirmed == JOptionPane.YES_OPTION) {
+                    dispose(); // 창 닫기
+                }
             }
         });
 
