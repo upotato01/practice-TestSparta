@@ -75,8 +75,6 @@
 ## 요구 사항
 - **Java JDK 17 이상**: 프로그램을 컴파일하고 실행하기 위해 JDK 17 이상이 설치되어 있어야 합니다.
 
-
-이제 새로운 기능인 `R` 버튼의 설명과 그 외 개선된 오류 처리 및 연산 기능을 반영하였습니다. GUI 계산기의 동작 방식과 사용자 경험이 더욱 명확하게 설명되었습니다.
 ![다운로드](https://github.com/user-attachments/assets/c347d559-4afe-4ec2-8b95-66e1184f6d15)
 ![스크린샷 2024-09-08 190841](https://github.com/user-attachments/assets/a29d01fa-0e27-4ec1-8006-fad0a45ed2ec)
 
